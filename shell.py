@@ -353,11 +353,11 @@ class Session(object):
     def launch(self):
         if bool(self.__savedir) and not os.path.exists(self.__savedir):
             os.makedirs(self.__savedir)
+        print(self._make_cmdline())
         try:
             subprocess.call(self._make_cmdline())
         except FileNotFoundError as err:
             print(err)
-        # print(self._make_cmdline())
 
 
 class GameSession(Session):
@@ -381,11 +381,13 @@ class GameSession(Session):
         self._arg_iwad('{}/{}'.format(Shell.iwadpath, "DOOM2.WAD"))
         self._arg_comp(2)
 
-    def _skill(self, index):
-        self._arg_skill(index + 1)
+    def _skill(self, skill_index, level_index=1):
+        # Only pass skill setting when we go to a level, NOT to main menu screen
+        if bool(level_index):
+            self._arg_skill(skill_index + 1)
 
     def launch_params(self, skill_index, level_index):
-        self._skill(skill_index)
+        self._skill(skill_index, level_index)
         self._arg_warp((level_index, 0))
 
 
@@ -400,7 +402,7 @@ class UltimateSession(GameSession):
             self._arg_savedir("{}/{}".format(Shell.savepath, ULTIMATE))
 
     def launch_params(self, skill_index, level_index):
-        self._skill(skill_index)
+        self._skill(skill_index, level_index)
         self._arg_warp(calculate_ultdoom_warp(level_index))
 
 
@@ -441,6 +443,7 @@ class NRFTLSession(GameSession):
             self._arg_savedir("{}/{}".format(Shell.savepath, NRFTL))
 
     def launch_params(self, skill_index, level_index):
+        # No 0 level (==main menu) entry here
         self._skill(skill_index)
         self._arg_warp((level_index + 1, 0))
 
@@ -498,7 +501,7 @@ class CustomSession(GameSession):
         self._arg_custom_cmds(cmds)
 
     def launch_params(self, skill_index, level_index):
-        self._skill(skill_index)
+        self._skill(skill_index, level_index)
         self._arg_warp(calculate_ultdoom_warp(level_index)) if self.__iwadname == "DOOM.WAD" else \
             self._arg_warp((level_index, 0))
 
