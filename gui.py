@@ -400,6 +400,7 @@ class GUIFileSelect(tk.Frame):
             bd=2, width=120, anchor=tk.W
         )
         self.__listscroll = tk.Scrollbar(master=self, command=self.__file_list.yview, orient=tk.VERTICAL)
+        self.__button_frame = tk.Frame(master=self)
         self.__deploy_widgets()
         # self.update_widget_state()
 
@@ -410,7 +411,11 @@ class GUIFileSelect(tk.Frame):
         self.__load_order_widget.grid(row=1, column=2, sticky=tk.N, padx=10)
         tk.Label(master=self, text="Select custom files").grid(row=0, column=1)
         tk.Label(master=self, text="Load order:").grid(row=0, column=2)
-        tk.Button(master=self, text="Clear all", command=self.__clear).grid(row=3, column=0, columnspan=3, pady=5)
+        tk.Button(
+            master=self.__button_frame, text="Refresh list", command=self.update_widget_state
+        ).grid(row=0, column=0, padx=10)
+        tk.Button(master=self.__button_frame, text="Clear all", command=self.__clear).grid(row=0, column=1, padx=10)
+        self.__button_frame.grid(row=3, column=0, columnspan=3, pady=5)
         self.columnconfigure(2, minsize=160)
 
     def update_widget_state(self, *args):
