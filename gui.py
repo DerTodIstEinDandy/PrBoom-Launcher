@@ -525,7 +525,7 @@ class GUIDemoOptions(tk.Frame):
 
     def __ask_demofile(self):
         demo = fd.askopenfilename(
-            title="Locate demo to play", initialdir=".",
+            title="Locate demo to play", initialdir=Shell.demopath,
             filetypes=[("Demo lumps", "*.lmp"), ("All files", "*.*")]
         )
         if bool(demo):
@@ -593,6 +593,9 @@ class GUIMenuBar(tk.Menu):
         self.__paths_menu.add_checkbutton(
             label="Auto create save subfolders", variable=self.__make_savedirs,
             command=lambda: setattr(Shell, "make_savedirs", self.__make_savedirs.get())
+        )
+        self.__paths_menu.add_command(
+            label="Demos location...", command=DirPath("Locate demos folder:", "demopath").request
         )
         self.__paths_menu.add_command(
             label="Executables", command=lambda: GUIPopupExeSet(self.__master.winfo_toplevel())

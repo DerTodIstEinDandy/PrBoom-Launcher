@@ -107,6 +107,7 @@ class Shell(BaseShell):
     nrftlpath = "."
     pwadpath = "."
     savepath = "./saves"
+    demopath = "."
     make_savedirs = True   # whether to autogenerate save file subfolders for each specific game/mod combination
 
     prboom = "prboom-plus"  # software renderer executable
@@ -147,6 +148,7 @@ class Shell(BaseShell):
             "nrftlpath": ".",
             "pwadpath": ".",
             "savepath": "./saves",
+            "demopath": ".",
             "make_savedirs": True,
             "opengl": False,
             "res_x": WIDTH_DEF,
@@ -528,7 +530,7 @@ class DemoSession(CustomSession):
             self._arg_savedir("")
             self._arg_playdemo(self.__demofile)
         else:
-            self._arg_recorddemo('./{}.lmp'.format(self.__demofile))
+            self._arg_recorddemo('{}/{}.lmp'.format(Shell.demopath, self.__demofile))
 
 
 class IniManager(object):
@@ -548,7 +550,8 @@ class IniManager(object):
         self.__default_ini_file = '{}/{}'.format(self.INI_DIR, self.INI_DEFAULT)
 
         self.string_globals = (
-            "prboom", "glboom", "iwadpath", "mlpath", "nrftlpath", "pwadpath", "savepath", "conf"
+            "prboom", "glboom", "iwadpath", "mlpath", "nrftlpath",
+            "pwadpath", "savepath", "demopath", "conf"
         )
         self.int_globals = ("res_x", "res_y", "gl_res_x", "gl_res_y")
         self.bool_globals = ("make_savedirs", "opengl", "fullscreen", "gl_fullscreen", "fsdesktop")
