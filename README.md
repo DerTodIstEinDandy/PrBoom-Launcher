@@ -1,4 +1,4 @@
-###PrBoom-Launcher
+### PrBoom-Launcher
 
 This is a simple GUI launcher for Prboom+, an enhanced Doom source port. It can
 offer the following features:
@@ -15,7 +15,7 @@ offer the following features:
 
 * Preset saving and loading to switch between different custom wads easily
 
-#####Quick Start
+##### Quick Start
 
 [Microsoft Visual C++ 2015 Redistributable](https://www.microsoft.com/en-us/download/details.aspx?id=53587) is required for the Windows binary.
 
@@ -28,7 +28,7 @@ in "Files" > "Executables" dialog box.
 You can save/load launcher configurations, completely with all the custom game
 options, in the "Presets" menu.
 
-#####File locations
+##### File locations
 
 By default, the launcher assumes your WAD files are located in the same folder,
 and your Master Levels files are in the "master" subfolder. You can set paths
@@ -37,7 +37,7 @@ can also specify there a custom config file to use and a folder for your saved
 games (by default, the launcher creates a new "saves" folder if  it doesn't
 exist).
 
-#####Easy launch of the official games
+##### Easy launch of the official games
 
 The "Official releases" tab allows you to start every official campaign in  a
 couple of clicks. The correct settings, including the compatibility mode, are
@@ -46,42 +46,42 @@ auto-loaded, too, as long as you have it in your IWAD folder next to TNT.WAD.
 (NOTE: If you start a custom game with TNT.WAD, the patch will still be
 auto-added as the first file in the load order, for custom PWADs to override it)
 
-#####Automatic save folder creation
+##### Automatic save folder creation
 
 The launcher auto-generates subfolders in your save folder based on the
 game/PWAD combination you choose. Your Master Levels saves will go into
 "saves/master", and saves  for AV.WAD will be in "saves/DOOM2_AV". If you don't
 want this behavior, uncheck  "Files" > "Auto create save subfolders".
 
-#####Video menu
+##### Video menu
 
 "Video" menu allows you to choose whether to launch the OpenGL executable. You
 can also set different resolution/screen mode for each of the binaries. "Disable
 fullscreen desktop mode" is relevant if you're using [the unofficial build with
 fullscreen desktop mode support](https://www.doomworld.com/forum/topic/31039-prboom-plus-ver-2514/?page=102&tab=comments#comment-1850772)
 
-#####Compatibility modes
+##### Compatibility modes
 
 The launcher offers a dropdown menu to choose the most common compatibility
 options. You can check in-depth overview of compatibility modes in the PrBoom+
 documentation.
 
-- If a custom wad you're going to play is designed for the original MS-DOS
+* If a custom wad you're going to play is designed for the original MS-DOS
   Doom.exe (classic releases like Memento Mori, or modern releases that have
   "vanilla  compatible" in their description), select one of the compatibility
   modes depending  on the base IWAD file: DOOM2 mode, Ultimate Doom mode or
   Final Doom mode.
 
-- If a custom wad has "BOOM compatible" in its description, select "BOOM
+* If a custom wad has "BOOM compatible" in its description, select "BOOM
   compatible mode"
 
-- If a custom wad has "MBF compatible" in its description, select "MBF
+* If a custom wad has "MBF compatible" in its description, select "MBF
   compatible mode"
 
-- "Don't set -complevel" option is useful when you're going to watch a demo and
+* "Don't set -complevel" option is useful when you're going to watch a demo and
   you want PrBoom+ to auto detect the correct compatibility option for it.
 
 
-#####Python version
+##### Python version
 
 The program is written for Python 3.6. It was not tested with earlier versions.
