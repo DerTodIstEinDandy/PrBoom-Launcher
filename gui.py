@@ -4,8 +4,7 @@ from tkinter import filedialog as fd
 import fnmatch as fn
 import shell as sh
 from shell import Shell, ShellCustom
-import os
-import os.path
+import os, os.path, sys
 
 
 help_msg = '''- If a custom wad you're going to play is designed for the original MS-DOS Doom.exe \
@@ -712,5 +711,9 @@ class GUI(tk.Frame):
 
 if __name__ == '__main__':
     root = MainWindow()
-    root.title("PrBoom+ Launcher v0.1beta")
+    root.title("PrBoom+ Launcher v0.1.1")
+    try:
+        root.iconbitmap("caco.ico")
+    except tk._tkinter.TclError as err:  # in case the script is packaged with pyinstaller
+        root.iconbitmap(os.path.join(sys._MEIPASS, "caco.ico"))
     root.mainloop()
