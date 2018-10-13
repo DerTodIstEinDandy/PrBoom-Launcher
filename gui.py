@@ -712,7 +712,7 @@ class GUI(tk.Frame):
 
 if __name__ == '__main__':
     root = MainWindow()
-    root.title("PrBoom+ Launcher v0.1.1")
+    root.title("PrBoom+ Launcher v0.1.2")
     try:
         root.iconbitmap("caco.ico")
     except tk._tkinter.TclError as err:  # in case the script is packaged with pyinstaller

@@ -69,8 +69,8 @@ documentation.
 * If a custom wad you're going to play is designed for the original MS-DOS
   Doom.exe (classic releases like Memento Mori, or modern releases that have
   "vanilla  compatible" in their description), select one of the compatibility
-  modes depending  on the base IWAD file: DOOM2 mode, Ultimate Doom mode or
-  Final Doom mode.
+  modes depending  on the base IWAD file: Ultimate Doom mode (also works for
+  freedoom1.wad), DOOM2 mode (also works for freedoom2.wad) or Final Doom mode.
 
 * If a custom wad has "BOOM compatible" in its description, select "BOOM
   compatible mode"
