@@ -9,10 +9,11 @@ import os, os.path, sys
 
 help_msg = '''- If a custom wad you're going to play is designed for the original MS-DOS Doom.exe \
 (classic releases like Memento Mori, or modern releases that have "Vanilla compatible" in their description),\
- select one of the compatibility modes depending on the base IWAD file: DOOM2 mode, Ultimate Doom mode \
- or Final Doom mode.\n\n- If a custom wad has "BOOM compatible" in its description, select "BOOM compatible mode"\
- \n\n- If a custom wad has "MBF compatible" in its description, select "MBF compatible mode"\n\n\
-- "Don't set -complevel" option is useful when you're going to watch a demo and you want PrBoom+ to auto detect \
+ select one of the compatibility modes depending on the base IWAD file: Ultimate Doom mode \
+ (also works for freedoom1.wad), DOOM2 mode (also works for freedoom2.wad) or Final Doom mode.\
+ \n\n- If a custom wad has "BOOM compatible" in its description, select "BOOM compatible mode"\
+ \n\n- If a custom wad has "MBF compatible" in its description, select "MBF compatible mode"\
+ \n\n- "Don't set -complevel" option is useful when you're going to watch a demo and you want PrBoom+ to auto detect \
 the correct compatibility option for it.'''
 
 
@@ -222,7 +223,7 @@ class GUIDropdownIWAD(GUIDropdown):
 
     def __set_maplist_style(self):
         current = self._var.get()
-        self.ultdoom_maplist.set(True) if current == "DOOM.WAD" else self.ultdoom_maplist.set(False)
+        self.ultdoom_maplist.set(True) if current in sh.iwads_with_episodes else self.ultdoom_maplist.set(False)
 
 
 class GUIDropdownUltDoomMaps(GUIDropdown):

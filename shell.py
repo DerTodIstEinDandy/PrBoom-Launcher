@@ -25,7 +25,9 @@ games = collections.OrderedDict({
     NRFTL: "DOOM 2: NO REST FOR THE LIVING", MASTER: "MASTER LEVELS FOR DOOM 2"
 })
 
-iwad_list = ("DOOM.WAD", "DOOM2.WAD", "PLUTONIA.WAD", "TNT.WAD")
+iwad_list = ("DOOM.WAD", "DOOM2.WAD", "PLUTONIA.WAD", "TNT.WAD", "freedoom1.wad", "freedoom2.wad")
+
+iwads_with_episodes = ("DOOM.WAD", "freedoom1.wad")
 
 skill_list = (
     "I'm Too Young to Die!", "Hey, Not Too Rough",
@@ -504,16 +506,16 @@ class CustomSession(GameSession):
 
     def launch_params(self, skill_index, level_index):
         self._skill(skill_index, level_index)
-        self._arg_warp(calculate_ultdoom_warp(level_index)) if self.__iwadname == "DOOM.WAD" else \
+        self._arg_warp(calculate_ultdoom_warp(level_index)) if self.__iwadname in iwads_with_episodes else \
             self._arg_warp((level_index, 0))
 
     def __generate_savedir_name(self, iwadname, wads=None):
         if wads is None or not bool(wads):
-            return "{}/{}_{}".format(Shell.savepath, iwadname.rstrip("WAD").rstrip("."), "CustomGame")
+            return "{}/{}_{}".format(Shell.savepath, iwadname.rstrip("wadWAD").rstrip("."), "CustomGame")
         else:
             wadstring = '_'.join([wadname.rstrip("wadWAD").rstrip(".") for wadname in wads])
             wadstring = wadstring[:32] if len(wadstring) > 32 else wadstring
-            return "{}/{}_{}".format(Shell.savepath, iwadname.rstrip("WAD").rstrip("."), wadstring)
+            return "{}/{}_{}".format(Shell.savepath, iwadname.rstrip("wadWAD").rstrip("."), wadstring)
 
 
 class DemoSession(CustomSession):
