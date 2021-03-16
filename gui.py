@@ -74,8 +74,6 @@ class GUIPopupExeSet(GUIPopup):
         super().__init__(parent)
         self.__prboom = tk.StringVar(self._popup_frame)
         self.__prboom.set(Shell.prboom)
-        self.__glboom = tk.StringVar(self._popup_frame)
-        self.__glboom.set(Shell.glboom)
         tk.Label(master=self._popup_frame, text="Name of executable:").pack(padx=10)
         tk.Entry(master=self._popup_frame, textvariable=self.__prboom, width=30).pack(pady=6, padx=10)
         tk.Button(master=self._popup_frame, text="Accept", command=self.__accept).pack(pady=3, padx=10)
