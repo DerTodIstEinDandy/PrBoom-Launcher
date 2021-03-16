@@ -5,12 +5,6 @@ import os.path
 import subprocess
 
 # Global constants
-WIDTH_MIN = 300
-WIDTH_DEF = 800
-GL_WIDTH_DEF = 1024
-HEIGHT_MIN = 200
-HEIGHT_DEF = 600
-GL_HEIGHT_DEF = 768
 
 ULTIMATE = "ultimate"
 DOOM2 = "doom2"
@@ -113,16 +107,6 @@ class Shell(BaseShell):
     make_savedirs = True   # whether to autogenerate save file subfolders for each specific game/mod combination
 
     prboom = "prboom-plus"  # software renderer executable
-    glboom = "glboom-plus"  # OpenGL renderer executable
-    opengl = False   # whether to start with OpenGL executable
-
-    res_x = WIDTH_DEF   # settings
-    res_y = HEIGHT_DEF   # for
-    fullscreen = True   # prboom executable
-
-    gl_res_x = GL_WIDTH_DEF   # settings
-    gl_res_y = GL_HEIGHT_DEF   # for
-    gl_fullscreen = True   # glboom executable
 
     fsdesktop = True
     conf = ""
@@ -152,14 +136,6 @@ class Shell(BaseShell):
             "savepath": "./saves",
             "demopath": ".",
             "make_savedirs": True,
-            "opengl": False,
-            "res_x": WIDTH_DEF,
-            "res_y": HEIGHT_DEF,
-            "gl_res_x": GL_WIDTH_DEF,
-            "gl_res_y": GL_HEIGHT_DEF,
-            "fullscreen": True,
-            "gl_fullscreen": True,
-            "fsdesktop": True,
             "conf": ""
         }
         for default in defaults:
@@ -262,14 +238,7 @@ class Session(object):
         else:
             self._cmd_args.pop("conf", None)
 
-    def _arg_fullscreen(self, fullscreen: bool):
-        self._cmd_args["fullscr"] = "-fullscreen" if fullscreen else "-window"
 
-    def _arg_fsdesktop(self, fsdesktop: bool):
-        if fsdesktop:
-            self._cmd_args["fsdt"] = "-fsdesktop"
-        else:
-            self._cmd_args.pop("fsdt", None)
 
     def _arg_res(self, res_x: int, res_y: int):
         if 299 < res_x < 8000 and 199 < res_y < 4500:
@@ -301,6 +270,12 @@ class Session(object):
             self._cmd_args["respawn"] = "-respawn"
         else:
             self._cmd_args.pop("respawn", None)
+
+    def _arg_none(self, resp: bool)
+        if none:
+            self._cmd_args["none"] = "-nomonsters"
+        else
+            self._cmd_args.pop("none", None)
 
     def _arg_warp(self, warp: tuple):
         if len(warp) > 1 and warp[0] != 0:
@@ -368,16 +343,8 @@ class GameSession(Session):
     """A basic game session, which is also vanilla DOOM2 game session"""
 
     def __init__(self):
-        if Shell.opengl:
-            super().__init__(
-                Shell.glboom, Shell.conf, Shell.gl_fullscreen,
-                Shell.gl_res_x, Shell.gl_res_y, fsdesktop=Shell.fsdesktop
-            )
-        else:
-            super().__init__(
-                Shell.prboom, Shell.conf, Shell.fullscreen,
-                Shell.res_x, Shell.res_y, fsdesktop=Shell.fsdesktop
-            )
+        if Shell.prboom
+              
         if not Shell.make_savedirs:
             self._arg_savedir(Shell.savepath)
         if Shell.make_savedirs:
@@ -445,11 +412,6 @@ class NRFTLSession(GameSession):
         self._arg_files([campaign])
         if Shell.make_savedirs:
             self._arg_savedir("{}/{}".format(Shell.savepath, NRFTL))
-
-    def launch_params(self, skill_index, level_index):
-        # No 0 level (==main menu) entry here
-        self._skill(skill_index)
-        self._arg_warp((level_index + 1, 0))
 
 
 class MLSession(GameSession):
@@ -552,11 +514,10 @@ class IniManager(object):
         self.__default_ini_file = '{}/{}'.format(self.INI_DIR, self.INI_DEFAULT)
 
         self.string_globals = (
-            "prboom", "glboom", "iwadpath", "mlpath", "nrftlpath",
+            "prboom", "iwadpath", "mlpath", "nrftlpath",
             "pwadpath", "savepath", "demopath", "conf"
         )
-        self.int_globals = ("res_x", "res_y", "gl_res_x", "gl_res_y")
-        self.bool_globals = ("make_savedirs", "opengl", "fullscreen", "gl_fullscreen", "fsdesktop")
+        self.bool_globals = ("make_savedirs")
         self.int_custommgr = ("iwad_index", "comp_index", "level_index", "skill_index")
         self.bool_custommgr = ("fast", "respawn", "demorec", "demoplay")
         self.string_custommgr = ("cmdline", "demorec_name", "demoplay_name")

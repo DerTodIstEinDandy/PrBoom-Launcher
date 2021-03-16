@@ -76,10 +76,8 @@ class GUIPopupExeSet(GUIPopup):
         self.__prboom.set(Shell.prboom)
         self.__glboom = tk.StringVar(self._popup_frame)
         self.__glboom.set(Shell.glboom)
-        tk.Label(master=self._popup_frame, text="Name of software mode executable:").pack(padx=10)
+        tk.Label(master=self._popup_frame, text="Name of executable:").pack(padx=10)
         tk.Entry(master=self._popup_frame, textvariable=self.__prboom, width=30).pack(pady=6, padx=10)
-        tk.Label(master=self._popup_frame, text="Name of OpenGL executable:").pack(padx=10)
-        tk.Entry(master=self._popup_frame, textvariable=self.__glboom, width=30).pack(pady=6, padx=10)
         tk.Button(master=self._popup_frame, text="Accept", command=self.__accept).pack(pady=3, padx=10)
         tk.Button(master=self._popup_frame, text="Quit", command=self._close).pack(pady=3, padx=10)
         self._popup_frame.pack()
@@ -87,101 +85,7 @@ class GUIPopupExeSet(GUIPopup):
 
     def __accept(self):
         Shell.prboom = self.__prboom.get()
-        Shell.glboom = self.__glboom.get()
         self._close()
-
-
-class GUIPopupScreenSet(GUIPopup):
-    def __init__(self, parent):
-        super().__init__(parent)
-        self.__opengl_opt = GUIOpenGLSet(master=self._popup_frame, bd=2, relief=tk.GROOVE)
-        self.__software_opt = GUISWRenderSet(master=self._popup_frame, bd=2, relief=tk.GROOVE)
-        self.__button_panel = tk.Frame(master=self._popup_frame)
-        self.__warning = tk.StringVar(self._popup_frame)
-        self.__warning.set("")
-        self.__deploy_widgets()
-        center(self)
-
-    def __accept(self):
-        try:
-            self.__opengl_opt.apply()
-            self.__software_opt.apply()
-        except tk._tkinter.TclError as err:
-            self.__warning.set("Invalid resolution value!")
-            return
-        self._close()
-
-    def __deploy_widgets(self):
-        tk.Label(master=self._popup_frame, text="OpenGL executable options:").pack()
-        self.__opengl_opt.pack(pady=4, padx=5)
-        tk.Label(master=self._popup_frame, text="Software executable options:").pack()
-        self.__software_opt.pack(pady=4, padx=5)
-        tk.Label(master=self._popup_frame, textvariable=self.__warning, fg="red").pack()
-        tk.Button(self.__button_panel, text="Accept", command=self.__accept).grid(column=0, row=0, padx=10)
-        tk.Button(self.__button_panel, text="Quit", command=self._close).grid(column=1, row=0, padx=10)
-        self.__button_panel.pack(pady=4)
-        self._popup_frame.pack()
-
-
-class GUIOpenGLSet(tk.Frame):
-    def __init__(self, master, **kwargs):
-        super().__init__(master=master, **kwargs)
-        self._res_x = tk.IntVar(self)
-        self._res_y = tk.IntVar(self)
-        self._fullscreen = tk.BooleanVar(self)
-        self._res_x.set(Shell.gl_res_x)
-        self._res_y.set(Shell.gl_res_y)
-        self._fullscreen.set(Shell.gl_fullscreen)
-        self.__res_frame = tk.Frame(self)
-        self.__screenmode_frame = tk.Frame(self)
-        self._deploy_widgets()
-
-    def apply(self):
-        Shell.gl_fullscreen = self._fullscreen.get()
-        Shell.gl_res_x = self._res_x.get()
-        Shell.gl_res_y = self._res_y.get()
-
-    def _deploy_widgets(self):
-        tk.Label(master=self.__res_frame, text="Width:").grid(row=0, column=0, sticky=tk.E)
-        tk.Entry(
-            master=self.__res_frame, textvariable=self._res_x, width=8
-        ).grid(row=0, column=1, sticky=tk.W, padx=3)
-        tk.Label(master=self.__res_frame, text="x").grid(row=0, column=2, padx=3)
-        tk.Label(master=self.__res_frame, text="Height:").grid(row=0, column=3, sticky=tk.E)
-        tk.Entry(
-            master=self.__res_frame, textvariable=self._res_y, width=8
-        ).grid(row=0, column=4, sticky=tk.W, padx=3)
-        tk.Radiobutton(
-            master=self.__screenmode_frame, text="Fullscreen", value=True, variable=self._fullscreen
-        ).grid(row=0, column=1, sticky=tk.E)
-        tk.Radiobutton(
-            master=self.__screenmode_frame, text="Window", value=False, variable=self._fullscreen
-        ).grid(row=0, column=3, sticky=tk.W)
-        self.__res_frame.grid(column=0, row=0, padx=5, pady=2)
-        self.__screenmode_frame.grid(column=0, row=1, padx=5, pady=2)
-
-
-class GUISWRenderSet(GUIOpenGLSet):
-    def __init__(self, master, **kwargs):
-        super().__init__(master=master, **kwargs)
-        self._no_fsdesktop = tk.BooleanVar()
-        self._no_fsdesktop.set(not Shell.fsdesktop)
-        self._res_x.set(Shell.res_x)
-        self._res_y.set(Shell.res_y)
-        self._fullscreen.set(Shell.fullscreen)
-        self._add_widgets()
-
-    def _add_widgets(self):
-        tk.Checkbutton(
-            master=self, text="Disable fullscreen desktop mode", variable=self._no_fsdesktop
-        ).grid(row=2, column=0, sticky=tk.W)
-
-    def apply(self):
-        Shell.fsdesktop = not self._no_fsdesktop.get()
-        Shell.fullscreen = self._fullscreen.get()
-        Shell.res_x = self._res_x.get()
-        Shell.res_y = self._res_y.get()
-
 
 class GUIDropdown(tk.OptionMenu):
     def __init__(self, gamemgr: Shell, master, var: tk.StringVar, var_list, *args):
@@ -359,7 +263,7 @@ class GUITabCustom(tk.Frame):
         self.__cmds.trace_add("write", lambda *a: setattr(self.__custommgr, "cmdline", self.__cmds.get()))
 
     def __deploy_widgets(self):
-        self.__files_select.grid(row=0, column=0, rowspan=11, sticky=tk.N + tk.W)
+        self.__files_select.grid(row=0, column=0, rowspan=12, sticky=tk.N + tk.W)
         ttk.Separator(self, orient=tk.VERTICAL).grid(column=1, row=0, rowspan=11, sticky=tk.N+tk.S)
         self.__iwad_panel.grid(row=0, column=2, columnspan=2, pady=2)
         tk.Label(master=self, text="Skill:").grid(row=2, column=2, columnspan=2)
@@ -368,12 +272,13 @@ class GUITabCustom(tk.Frame):
         GUIDropdownComplevel(self.__custommgr, self, self.__complevel).grid(row=5, column=2, columnspan=2)
         tk.Checkbutton(master=self, text="Fast monsters", variable=self.__fast).grid(row=6, column=2)
         tk.Checkbutton(master=self, text="Respawning monsters", variable=self.__resp).grid(row=6, column=3)
-        self.__demo_panel.grid(row=7, column=2, columnspan=2, pady=6, padx=5)
-        tk.Label(master=self, text="Additional parameters:").grid(row=8, column=2, columnspan=2)
-        tk.Entry(master=self, textvariable=self.__cmds, width=40).grid(row=9, column=2, columnspan=2)
+        tk.Checkbutton(master=self, text="No monsters", variable=self.__none).grid(row=7, column=2)
+        self.__demo_panel.grid(row=8, column=2, columnspan=2, pady=6, padx=5)
+        tk.Label(master=self, text="Additional parameters:").grid(row=9, column=2, columnspan=2)
+        tk.Entry(master=self, textvariable=self.__cmds, width=40).grid(row=10, column=2, columnspan=2)
         tk.Button(
             master=self, text="Play!", command=self.__custommgr.start_game, width=12
-        ).grid(row=10, column=2, columnspan=2, pady=5)
+        ).grid(row=11, column=2, columnspan=2, pady=5)
         # self.update_widget_state()
 
     def update_widget_state(self, *args):
@@ -602,15 +507,6 @@ class GUIMenuBar(tk.Menu):
         )
         self.__paths_menu.add_separator()
         self.__paths_menu.add_command(label="Quit", command=self.__exit_app)
-
-    def __deploy_video_menu(self):
-        self.__video_menu.add_checkbutton(
-            label="Use OpenGL executable", variable=self.__opengl,
-            command=lambda: setattr(Shell, "opengl", self.__opengl.get())
-        )
-        self.__video_menu.add_command(
-            label="Screen settings", command=lambda: GUIPopupScreenSet(self.__master.winfo_toplevel())
-        )
 
     def __deploy_presets_menu(self):
         self.__presets_menu.add_command(label="Save current...", command=self.__save)
